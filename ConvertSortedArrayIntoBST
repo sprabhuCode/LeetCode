@@ -1,0 +1,44 @@
+/**
+ * Convert Sorted Array into Binat Search tree.
+ * Since the array is sorted , the mid index would be  the root node of  the tree. start-mid would be left sub tree, mid-end would be right subtree
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        
+        if(nums.length==0)
+            return null;
+      
+        TreeNode result = construct(nums, 0, nums.length-1);
+        return result;
+    }
+    
+    public TreeNode construct(int[] A, int start, int end) {
+		
+		if(start>end)
+			return null;
+		
+		int mid = (start+end)/2;
+		TreeNode node = new TreeNode(A[mid]);
+		
+		if(start==end)
+			return node;
+		
+		node.left = construct(A, start, mid-1);
+		node.right = construct(A, mid+1, end);
+		
+		return node;
+	}
+}
