@@ -1,0 +1,41 @@
+Given a string s, remove duplicate letters so that every letter appears once and only once. 
+You must make sure your result is the smallest in lexicographical order among all possible results.
+Input: s = "cbacdcbc"
+Output: "acdb"
+
+Implementation : 
+Keep track of last occured index of each characted in an array
+keep track if occurence of the character in the selected set of character
+Stack to keep track of latest added element,
+    a. check if next element is less than peek, if yes check the peek index of stack is largest or not. remove from peek is lastOccurence is greater than current index
+    b. add if lastoccurence is equal  to current index 
+
+public static void removeDuplicateLetters(String s) {
+		int[] lastIndex = new int[26];
+		boolean[] isPresent = new boolean[26];
+
+		Stack<Character> stack = new Stack<Character>();
+		
+		for(int i=0;i<s.length();i++) {
+			lastIndex[s.charAt(i)] = i;
+		}
+
+		for(int i=0;i<s.length();i++) {
+			
+			while(!stack.isEmpty() && stack.peek()>s.charAt(i) && lastIndex[stack.peek()]>i) {
+				isPresent[stack.pop()]=false;
+			}
+			if((stack.isEmpty() || stack.peek()<s.charAt(i)) && isPresent[s.charAt(i)]==false ) {
+				stack.push(s.charAt(i));
+				isPresent[s.charAt(i)]=true;
+			}
+			
+		}
+		
+		StringBuilder result = new StringBuilder();
+		
+		while(!stack.isEmpty())
+			result.append(stack.pop());
+		
+		result.reverse().toString();
+	}
